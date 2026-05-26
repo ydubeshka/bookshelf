@@ -1,6 +1,11 @@
 from fastapi import FastAPI
 from src.modules.users.router import router as user_router
 
+
+from src.modules.users.model import User
+from src.modules.authors.model import Author
+from src.modules.books.model import Book
+from src.modules.bookshelf.model import UserBook
 app = FastAPI(
     title='Bookshelf API',
     version='1.0',
