@@ -1,16 +1,18 @@
 from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
-class AuthorCreate(BaseModel):
+
+class AuthorBase(BaseModel):
     first_name: str
     last_name: str
     bio: Optional[str] = None
 
 
-class AuthorResponse(BaseModel):
+class AuthorCreate(AuthorBase):
+    pass
+
+
+class AuthorResponse(AuthorBase):
     id: int
-    first_name: str
-    last_name: str
-    bio: Optional[str] = None
 
     model_config = ConfigDict(from_attributes=True)
