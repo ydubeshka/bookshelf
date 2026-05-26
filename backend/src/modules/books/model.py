@@ -21,6 +21,7 @@ class Book(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column(String(255), index=True)
+    description: Mapped[str | None] = mapped_column(String, nullable=True)
     published_year: Mapped[int | None] = mapped_column(Integer, nullable=True)
     genre: Mapped[str | None] = mapped_column(String(100), nullable=True)
     authors: Mapped[list['Author']] = relationship(
