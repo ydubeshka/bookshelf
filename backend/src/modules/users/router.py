@@ -9,6 +9,7 @@ from src.database.database import get_db
 from src.modules.users.schema import UserCreate, UserResponse, Token
 from src.modules.users import crud
 from src.core.security import verify_password, create_access_token
+from src.modules.users.model import User
 
 router = APIRouter(prefix='/users', tags=['Users'])
 
@@ -71,3 +72,8 @@ async def login_for_access_token(
 
     access_token = create_access_token(data={"sub": str(user.id)})
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+@router.get('/me', response_model=UserResponse)
+async def get_my_profile(current_user: User = Depends(get_current_user)):
+    return current_user
