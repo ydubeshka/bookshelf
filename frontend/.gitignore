@@ -1,25 +1,4 @@
-.env
-*.pem
-secrets.json
-
-.venv/
-venv/
-env/
-
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.pytest_cache/
-
-.idea/
-.vscode/
-*.swp
-
-Thumbs.db
-
-*.sqlite3
-
+# Logs
 logs
 *.log
 npm-debug.log*
@@ -33,6 +12,7 @@ dist
 dist-ssr
 *.local
 
+# Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
