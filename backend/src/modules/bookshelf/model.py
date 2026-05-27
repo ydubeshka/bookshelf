@@ -25,6 +25,5 @@ class UserBook(Base):
     status: Mapped[ReadStatus] = mapped_column(Enum(ReadStatus), default=ReadStatus.TO_READ)
     rating: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
-    # Обратные связи
     user: Mapped["User"] = relationship(back_populates="bookshelf")
     book: Mapped["Book"] = relationship(back_populates="readers")
