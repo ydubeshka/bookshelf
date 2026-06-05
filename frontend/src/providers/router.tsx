@@ -4,6 +4,7 @@ import HomePage from "@/pages/HomePage";
 import BookDetailPage from "@/pages/BookDetailPage";
 import BookshelfPage from "@/pages/BookshelfPage";
 import LoginPage from "@/pages/LoginPage";
+import RegisterPage from "@/pages/RegisterPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginPage />,
+      },
+      {
+        path: "/register",
+        element: <RegisterPage />,
       },
     ],
   },
