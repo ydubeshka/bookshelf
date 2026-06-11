@@ -3,7 +3,7 @@ from src.modules.users.router import router as user_router
 from src.modules.books.router import router as book_router
 from src.modules.bookshelf.router import router as bookshelf_router
 from src.modules.authors.router import router as authors_router
-
+from fastapi.middleware.cors import CORSMiddleware
 
 from src.modules.users.model import User
 from src.modules.authors.model import Author
@@ -13,6 +13,15 @@ app = FastAPI(
     title='Bookshelf API',
     version='1.0',
     description='Backend for personal bookshelf'
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    # TODO: Restrict origins to specific frontend URL(s) before production.
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(user_router)

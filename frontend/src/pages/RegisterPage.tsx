@@ -66,12 +66,15 @@ export default function RegisterPage() {
         .then((loginResponse) => {
           localStorage.setItem("access_token", loginResponse.data.access_token);
           queryClient.invalidateQueries({ queryKey: ["current-user"] });
-          navigate("/");
+          navigate("/login");
         });
     },
-    onError: (error: any) => {
-      // Handle registration errors
-      console.error("Registration error:", error);
+    onError: (error: unknown) => {
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.error("Registration failed. Please try again.");
+      }
     },
   });
 

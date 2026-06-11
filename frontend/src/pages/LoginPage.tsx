@@ -62,7 +62,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center">
+    <div className="flex min-h-screen h-full items-center justify-center">
       <Card className="bg-card/50 border-muted/50 w-full max-w-md shadow-xl backdrop-blur-sm">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold tracking-tight">Welcome back</CardTitle>
@@ -104,7 +104,7 @@ export default function LoginPage() {
           </form>
         </CardContent>
 
-        <CardFooter>
+        <CardFooter className="flex flex-col gap-3">
           <Button
             type="submit"
             form="login-form"
@@ -113,9 +113,9 @@ export default function LoginPage() {
           >
             {loginMutation.isPending ? "Signing in..." : "Sign In"}
           </Button>
-          <p className="text-center text-sm text-muted-foreground ">
+          <p className="text-muted-foreground text-center text-sm">
             Don't have an account?{" "}
-            <Link to="/register" className="text-primary hover:underline font-medium">
+            <Link to="/register" className="text-primary font-medium hover:underline">
               Sign up
             </Link>
           </p>
