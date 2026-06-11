@@ -35,3 +35,4 @@ async def get_author_by_id(author_id: int, session: AsyncSession = Depends(get_d
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Автор не найден"
         )
+    return author

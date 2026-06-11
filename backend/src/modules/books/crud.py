@@ -44,7 +44,7 @@ async def get_all_books(
     stmt = stmt.offset(skip).limit(limit)
     result = await session.execute(stmt)
 
-    return list(result.scalars().all())
+    return list(result.unique().scalars().all())
 
 
 async def get_book_by_id(session: AsyncSession, book_id: int) -> Book | None:
