@@ -28,5 +28,6 @@ class Book(Base):
         secondary=book_authors,
         back_populates='books'
     )
+    cover_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
 
     readers: Mapped[list['UserBook']] = relationship(back_populates='book')

@@ -3,10 +3,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.modules.books.model import Book
 from src.modules.books.schema import BookCreate
+from sqlalchemy.orm import joinedload
 
 
 async def get_book_by_title(session: AsyncSession, title: str) -> Book | None:
-    stmt = select(Book).where(Book.title == title)
+    stmt = select(Book).where(Book.title == title).options(joinedload(Book.authors))
     result = await session.execute(stmt)
 
     return result.scalar_one_or_none()
@@ -33,7 +34,7 @@ async def get_all_books(
         search_query: str | None = None,
         genre: str | None = None
 ) -> list[Book]:
-    stmt = select(Book)
+    stmt = select(Book).options(joinedload(Book.authors))
 
     if search_query:
         stmt = stmt.where(Book.title.ilike(f"%{search_query}%"))
@@ -48,7 +49,7 @@ async def get_all_books(
 
 
 async def get_book_by_id(session: AsyncSession, book_id: int) -> Book | None:
-    stmt = select(Book).where(Book.id == book_id)
+    stmt = select(Book).where(Book.id == book_id).options(joinedload(Book.authors))
     result = await session.execute(stmt)
 
-    return result.scalar_one_or_none()
+    return result.unique().scalar_one_or_none()
