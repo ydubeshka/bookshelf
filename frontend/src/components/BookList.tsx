@@ -51,8 +51,10 @@ export function BookList({ books }: BookListProps) {
           </div>
 
           <CardHeader>
-            <CardTitle className="line-clamp-2">{book.title}</CardTitle>
-            <CardDescription>
+            <div className="min-h-[3rem]">
+              <CardTitle className="line-clamp-2">{book.title}</CardTitle>
+            </div>
+            <CardDescription className="mt-1 truncate">
               {book.authors?.length > 0
                 ? book.authors.map((a) => `${a.first_name} ${a.last_name}`).join(", ")
                 : "Неизвестный автор"}

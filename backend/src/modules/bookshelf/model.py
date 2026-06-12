@@ -19,6 +19,7 @@ class UserBook(Base):
     __tablename__ = "user_books"
 
     id: Mapped[int] = mapped_column(primary_key=True)
+
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
     book_id: Mapped[int] = mapped_column(ForeignKey("books.id", ondelete="CASCADE"))
 

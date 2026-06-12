@@ -1,8 +1,10 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import joinedload
 
 from src.modules.bookshelf.model import UserBook
 from src.modules.bookshelf.schema import UserBookCreate, UserBookUpdate
+from src.modules.books.model import Book
 
 
 async def add_book_to_shelf(session: AsyncSession, shelf_in: UserBookCreate, user_id: int) -> UserBook:
@@ -19,11 +21,17 @@ async def add_book_to_shelf(session: AsyncSession, shelf_in: UserBookCreate, use
 
     return db_user_book
 
-async def get_user_shelf(session:AsyncSession, user_id: int) -> list[UserBook]:
-    stmt = select(UserBook).where(UserBook.user_id == user_id)
+async def get_user_shelf(session: AsyncSession, user_id: int) -> list[UserBook]:
+    stmt = (
+        select(UserBook)
+        .where(UserBook.user_id == user_id)
+        .options(
+            joinedload(UserBook.book).joinedload(Book.authors)
+        )
+    )
     result = await session.execute(stmt)
 
-    return list(result.scalars().all())
+    return list(result.unique().scalars().all())
 
 async def update_book_on_shelf(
         session: AsyncSession,

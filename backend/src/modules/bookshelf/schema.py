@@ -1,5 +1,6 @@
 from pydantic import BaseModel, ConfigDict, Field
 from typing import Optional
+from src.modules.books.schema import BookResponse
 
 class UserBookBase(BaseModel):
     book_id: int
@@ -12,8 +13,7 @@ class UserBookCreate(UserBookBase):
 
 class UserBookResponse(UserBookBase):
     id: int
-    user_id: int
-
+    book: BookResponse
     model_config = ConfigDict(from_attributes=True)
 
 class UserBookUpdate(BaseModel):
