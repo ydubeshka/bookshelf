@@ -25,6 +25,7 @@ A full-stack web application for searching books and managing a personal library
 **Backend:**
 * **FastAPI** (Python 3.12) — High-performance asynchronous web framework.
 * **SQLAlchemy 2.0** (Async) — ORM for database interactions. Utilizes eager loading (`joinedload`) to solve the N+1 query problem when fetching complex nested relationships (Book -> Authors).
+* **Alembic** — Database migration tool.
 * **Pydantic V2** — Strict incoming data validation and response serialization.
 * **PostgreSQL** — Primary relational database.
 
@@ -46,10 +47,21 @@ The project is fully containerized. You only need [Docker](https://www.docker.co
    ```bash
    docker compose up --build -d
    ```
+   *(Note: During the first startup, the database may take a few seconds to initialize).*
 
-3. **Access the application:**
+3. **Apply Database Migrations:**
+   Once the containers are up, run Alembic to create the necessary tables in the database:
+   ```bash
+   docker compose exec backend alembic upgrade head
+   ```
+
+4. **Seed the Database:**
+   Populate the catalog with initial data (books, authors, genres) so the application isn't empty:
+   ```bash
+   docker compose exec backend python src/seed.py
+   ```
+   *(Note: Adjust the path to `seed.py` if your folder structure differs).*
+
+5. **Access the application:**
    * Frontend is available at: [http://localhost:5173](http://localhost:5173)
    * Interactive API documentation (Swagger) is available at: [http://localhost:8000/docs](http://localhost:8000/docs)
-
-*(Note: During the first startup, the database may take a few seconds to initialize).*
-
