@@ -19,12 +19,12 @@ class UserBook(Base):
     __tablename__ = "user_books"
 
     id: Mapped[int] = mapped_column(primary_key=True)
+
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
     book_id: Mapped[int] = mapped_column(ForeignKey("books.id", ondelete="CASCADE"))
 
     status: Mapped[ReadStatus] = mapped_column(Enum(ReadStatus), default=ReadStatus.TO_READ)
     rating: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
-    # Обратные связи
     user: Mapped["User"] = relationship(back_populates="bookshelf")
     book: Mapped["Book"] = relationship(back_populates="readers")

@@ -22,3 +22,10 @@ async def create_user(session: AsyncSession, user_in: UserCreate) -> User:
     await session.refresh(db_user)
 
     return db_user
+
+
+async def get_user_by_id(session: AsyncSession, user_id: int) -> User | None:
+    stmt = select(User).where(User.id == user_id)
+    result = await session.execute(stmt)
+
+    return result.scalar_one_or_none()

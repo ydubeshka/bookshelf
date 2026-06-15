@@ -13,5 +13,5 @@ class Base(DeclarativeBase, AsyncAttrs):
 
 
 async def get_db() -> AsyncGenerator:
-    async with async_sessionmaker as session:
+    async with async_sessionmaker() as session:
         yield session

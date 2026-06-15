@@ -21,11 +21,13 @@ class Book(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column(String(255), index=True)
+    description: Mapped[str | None] = mapped_column(String, nullable=True)
     published_year: Mapped[int | None] = mapped_column(Integer, nullable=True)
     genre: Mapped[str | None] = mapped_column(String(100), nullable=True)
     authors: Mapped[list['Author']] = relationship(
         secondary=book_authors,
         back_populates='books'
     )
+    cover_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
 
     readers: Mapped[list['UserBook']] = relationship(back_populates='book')
