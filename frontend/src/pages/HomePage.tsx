@@ -60,7 +60,7 @@ export default function HomePage() {
       <Suspense fallback={<BookListSkeleton />}>
         <CatalogResults
           searchQuery={searchQuery}
-          genre={genre} // 🌟 Передаем жанр вниз
+          genre={genre}
           page={page}
           setPage={setPage}
         />

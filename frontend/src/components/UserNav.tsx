@@ -1,4 +1,4 @@
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 
@@ -9,7 +9,6 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -32,7 +31,6 @@ export function UserNavSkeleton() {
 export function UserNav() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const location = useLocation();
   const token = localStorage.getItem("access_token");
 
   const { data: user, isLoading } = useQuery({
@@ -81,14 +79,6 @@ export function UserNav() {
             <p className="text-muted-foreground truncate text-xs leading-none">{user.email}</p>
           </div>
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem asChild>
-            <Link to="/profile" className="w-full cursor-pointer">
-              Profile
-            </Link>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={handleLogout}

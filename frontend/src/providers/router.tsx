@@ -5,6 +5,7 @@ import BookDetailPage from "@/pages/BookDetailPage";
 import BookshelfPage from "@/pages/BookshelfPage";
 import LoginPage from "@/pages/LoginPage";
 import RegisterPage from "@/pages/RegisterPage.tsx";
+import { ProtectedRoute } from "@/components/ProtectedRoute.tsx";
 
 const router = createBrowserRouter([
   {
@@ -20,8 +21,10 @@ const router = createBrowserRouter([
         element: <BookDetailPage />,
       },
       {
-        path: "/bookshelf",
-        element: <BookshelfPage />,
+        element: <ProtectedRoute />,
+        children: [
+          { path: "/bookshelf", element: <BookshelfPage /> },
+        ],
       },
     ],
   },

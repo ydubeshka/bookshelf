@@ -1,7 +1,58 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardTitle } from "@/components/ui/card";
+import { api } from "@/lib/api.ts";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { BookshelfList } from "@/components/BookshelfList";
+import type { UserBook } from "@/types/types.ts";
 
 export default function BookshelfPage() {
+  const queryClient = useQueryClient();
+
+  const { data: books = [], isLoading } = useQuery<UserBook[]>({
+    queryKey: ["bookshelf"],
+    queryFn: async () => {
+      const response = await api.get("/bookshelf");
+      return response.data;
+    },
+  });
+
+  const updateBookMutation = useMutation({
+    mutationFn: async ({ bookId, updates }: { bookId: number; updates: Partial<UserBook> }) => {
+      const response = await api.patch(`/bookshelf/${bookId}`, updates);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["bookshelf"] });
+    },
+  });
+
+  const removeBookMutation = useMutation({
+    mutationFn: async (bookId: number) => {
+      await api.delete(`/bookshelf/${bookId}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["bookshelf"] });
+    },
+  });
+
+  const handleStatusChange = (bookId: number, newStatus: UserBook["status"]) => {
+    updateBookMutation.mutate({ bookId, updates: { status: newStatus } });
+  };
+
+  const handleRatingChange = (bookId: number, newRating: UserBook["rating"]) => {
+    updateBookMutation.mutate({ bookId, updates: { rating: newRating } });
+  };
+
+  const handleRemove = (bookId: number) => {
+    if (window.confirm("Are you sure you want to remove this book from your shelf?")) {
+      removeBookMutation.mutate(bookId);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="mx-auto max-w-4xl py-12 text-center text-xl">Loading your bookshelf...</div>
+    );
+  }
+
   return (
     <div className="mx-auto max-w-4xl space-y-8">
       <div>
@@ -9,24 +60,12 @@ export default function BookshelfPage() {
         <p className="text-muted-foreground mt-2">Manage your reading progress and ratings.</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4">
-        <Card className="bg-card/50 border-muted/50 flex flex-col items-center justify-between p-6 sm:flex-row">
-          <div className="space-y-1 text-center sm:text-left">
-            <CardTitle className="text-xl">Awesome Book 1</CardTitle>
-            <p className="text-muted-foreground text-sm font-medium">
-              Status: Reading • Rating: 5/5
-            </p>
-          </div>
-          <div className="mt-4 flex w-full gap-2 sm:mt-0 sm:w-auto">
-            <Button variant="secondary" className="flex-1 sm:flex-none">
-              Update
-            </Button>
-            <Button variant="destructive" className="flex-1 sm:flex-none">
-              Remove
-            </Button>
-          </div>
-        </Card>
-      </div>
+      <BookshelfList
+        items={books}
+        onStatusChange={handleStatusChange}
+        onRatingChange={handleRatingChange}
+        onRemove={handleRemove}
+      />
     </div>
   );
 }

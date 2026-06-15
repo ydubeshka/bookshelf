@@ -1,7 +1,8 @@
 import { api } from "@/lib/api";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { BookList, type Book } from "./BookList";
+import { BookList } from "./BookList";
 import { Button } from "@/components/ui/button";
+import type { Book } from "@/types/types";
 
 interface CatalogResultsProps {
   searchQuery: string;

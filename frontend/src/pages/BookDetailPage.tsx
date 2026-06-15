@@ -2,21 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-
-export interface Author {
-  first_name: string;
-  last_name: string;
-}
-
-export interface Book {
-  id: number;
-  title: string;
-  description: string;
-  genre: string;
-  published_year: number;
-  cover_url?: string | null;
-  authors: Author[];
-}
+import type { Book } from "@/types/types.ts";
 
 export default function BookDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -35,15 +21,15 @@ export default function BookDetailPage() {
   });
 
   if (isLoading) {
-    return <div className="py-12 text-center text-xl">Загрузка информации о книге...</div>;
+    return <div className="py-12 text-center text-xl">Loading...</div>;
   }
 
   if (isError || !book) {
     return (
       <div className="space-y-4 py-12 text-center">
-        <h2 className="text-2xl font-bold">Книга не найдена</h2>
+        <h2 className="text-2xl font-bold">Can't find book</h2>
         <Button asChild>
-          <Link to="/">Вернуться в каталог</Link>
+          <Link to="/">Back to catalog</Link>
         </Button>
       </div>
     );
@@ -52,7 +38,7 @@ export default function BookDetailPage() {
   const authorNames =
     book.authors?.length > 0
       ? book.authors.map((a) => `${a.first_name} ${a.last_name}`).join(", ")
-      : "Неизвестный автор";
+      : "Unknown author";
 
   return (
     <div className="mx-auto max-w-4xl space-y-8">
@@ -90,14 +76,8 @@ export default function BookDetailPage() {
           )}
 
           <p className="text-foreground/80 text-lg leading-relaxed">
-            {book.description || "Описание для этой книги пока не добавлено."}
+            {book.description || "There's no description."}
           </p>
-
-          <div className="border-muted/50 border-t pt-6">
-            <Button size="lg" className="w-full font-semibold sm:w-auto">
-              Add to My Shelf
-            </Button>
-          </div>
         </div>
       </div>
     </div>

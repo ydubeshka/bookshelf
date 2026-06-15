@@ -52,7 +52,7 @@ export default function RegisterPage() {
       });
       return response.data;
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       const loginFormData = new URLSearchParams();
       loginFormData.append("username", form.getValues("email"));
       loginFormData.append("password", form.getValues("password"));
