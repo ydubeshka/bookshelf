@@ -53,9 +53,3 @@ The project is fully containerized. You only need [Docker](https://www.docker.co
 
 *(Note: During the first startup, the database may take a few seconds to initialize).*
 
-## 🧠 Architectural Highlights (For Reviewers)
-
-The following engineering decisions were made during the development of this project:
-* **Solving the N+1 Problem:** Bookshelf endpoints implement complex queries using `joinedload`, allowing the retrieval of books and their associated authors in a single SQL query.
-* **Separation of Concerns (FastAPI):** Strict isolation between database logic (SQLAlchemy Models) and API contracts (Pydantic Schemas).
-* **Optimistic Updates:** The frontend utilizes `useMutation` from React Query. When adding or removing a book, the query cache is automatically invalidated, ensuring strict data consistency between the client and the server.
